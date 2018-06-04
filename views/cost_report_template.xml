@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_cost">
+    <t t-call="report.html_container">
+      <t t-foreach="docs" t-as="doc">
+       <!-- <t t-call="report.external_layout"> -->
+        <div class="page" style="margin: 0;">
+          <div style="display: inline; float:left; width:100%; margin-top=-100px;">
+            <img style="max-width: 200px; float:left; margin:0px 0px 30px 5px;" src="/cost_calculate/static/src/img/logo_yecora.png"/>
+            <h3 style="color:4a8b71; float:right; padding:13px 10px 0px 0px;"><strong>Costos</strong></h3>
+          </div>
+          <style>
+            .contenedor {
+              display: block;
+              align: center;
+              text-align:center;
+              }
+            .column_a {
+              display: block;
+              width: 100%;
+              margin: 0 auto;
+              align="center";
+             }
+            .column_b {
+             display: block;
+             }
+            .inline { 
+               display: inline-block;
+              }
+            .table_inv{ 
+              margin-top:-20px; 
+              margin-bottom:40px;
+              } 
+            span { 
+              color: black
+              }
+            th {
+              color:4a8b71;
+              font-size: 12px;
+            }
+            .column_titles {
+              color:#224c3b;
+              font-size: 12px;
+            }
+            .table-condensed thead span {
+              color: #558B2F;
+            }
+            td, span {
+              font-size: 12px;
+              }
+            table {
+              display:inline-block;
+            }
+            .table-d, .table-s {
+            display: inline-block;
+            margin: 0 10px 0 10px;
+            align="center";
+            }
+            .date{ 
+              color: #4a8b71;
+            }
+          </style>
+          <t t-if="docs.expand_invoices">
+            <div class="contenedor" t-foreach="keys_order" t-as="date">
+              <!-- Details -->
+              <div>
+                  <Strong><h5 class="date" t-esc="date"></h5></Strong>  
+              </div>
+              <div class="column_a">
+                <!-- Tabla Día -->
+                <div class="table-d">
+                  <table class="table-condensed">
+                    <thead>
+                      <!-- <th>Día</th> -->
+                      <th width="100" >Tn com</th>
+                      <th width="100"  t-if="(totals[date]['tons_sale'] - totals[date]['tons_sale_ref']) != 0">Tn ven</th>
+                      <th width="100" >Importe</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span t-esc="totals[date]['tons']"></span></td> 
+                        <td t-if="(totals[date]['tons_sale'] - totals[date]['tons_sale_ref']) != 0"><span t-esc="totals[date]['tons_sale'] - totals[date]['tons_sale_ref']"></span></td>
+                        <td>$<span t-esc="'{0:,.2f}'.format(float(totals[date]['total']))"></span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Fecha -->
+                <!-- <h5 class="date-between" t-esc="date"></h5> -->
+                <!-- Tabla Sumatoria -->
+                <div class="table-s">
+                  <table class="table-condensed">
+                    <thead>
+                      <!-- <t>Sumatoria</th> -->
+                      <th width="100">Tn com</th>
+                      <th width="100">Importe</th>
+                      <th width="100">Costo</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span t-esc="totals[date]['sum_tons']"></span></td>
+                        <td>$<span t-esc="'{0:,.2f}'.format(float(totals[date]['sum_import']))"></span></td>
+                        <td>$<span t-esc="'{0:,.2f}'.format(float(totals[date]['cost']))"></span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <hr style="margin-top:0px;"/>
+              <!-- Tables -->
+              <div class="column_b">
+                <table class="table table-striped table_inv">
+                  <thead>
+                      <th>Producto</th>
+                      <!-- <th>Productor</th> -->
+                      <th>Numero</th>
+                      <th>Toneladas</th>
+                      <th>P. Unitario</th>
+                      <th>Total</th>
+                      <!-- <th>Fecha</th> -->
+                  </thead>
+                  <tbody>
+                    <div t-foreach="dir[date]" t-as="a">
+                      <div t-foreach="dir[date][a]" t-as="d">
+                        <!-- Ventas -->
+                        <tr class="info" t-if="d['type'] == 'out_invoice'">
+                          <td t-esc="d['product']" t-value="d['product']" ></td>
+                          <td t-esc="d['number']" t-value="d['number']" ></td>
+                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['total']))" ></td>
+                        </tr>
+                        <tr class="warning" t-if="d['type'] == 'out_refund'">
+                          <td t-esc="d['product']" t-value="d['product']" ></td>
+                          <td t-esc="d['number']" t-value="d['number']" ></td>
+                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))"></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['total']))"></td>
+                        </tr>
+                        <!-- Compras -->
+                        <tr class="danger" t-if="d['type'] == 'in_refund'">
+                          <td t-esc="d['product']" t-value="d['product']" ></td>
+                          <td t-esc="d['number']" t-value="d['number']" ></td>
+                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['total']))"></td>
+                        </tr>
+                        <tr t-if="d['type'] == 'in_invoice'">
+                          <td t-esc="d['product']" t-value="d['product']" ></td>
+                          <td t-esc="d['number']" t-value="d['number']" ></td>
+                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
+                          <td t-esc="'{0:,.2f}'.format(float(d['total']))" ></td>
+                        </tr>
+                      </div>
+                    </div>
+                  </tbody>
+                </table>
+              </div>
+            </div>  
+          </t>
+        <!--  -->
+        <div >
+          <table class="table table-striped">
+            <thead>
+              <th>Fecha</th>
+              <th>Toneladas de Compra</th>
+              <th>Importe</th>
+              <th>Costo</th>
+            </thead>
+            <tbody>
+              <tr t-foreach="keys_order" t-as="date">
+                <td t-esc="date"></td>
+                <td><span t-esc="totals[date]['sum_tons']"></span></td>
+                <td>$<span t-esc="'{0:,.2f}'.format(float(totals[date]['sum_import']))"></span></td>
+                <td>$<span t-esc="'{0:,.2f}'.format(float(totals[date]['cost']))"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- </t> -->
+    </t>
+  </t>
+</template>
+</odoo>

@@ -1,0 +1,32 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="wizard_form_view">
+      <field name="name">wizard.form</field>
+      <field name="model">cost.calculate.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Calcular Costo">
+          <group>
+            <field name="date_start"/>
+            <field name="date_end"/>
+            <field name="expand_invoices"/>
+          </group>
+          <footer>
+            <button name="check_report" string="Generar" type="object" class="oe_highlight"/>
+            or
+            <button special="cancel" string="Cancel" class="oe_link" default_focus="1"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+    <record id="action_open_wizard" model="ir.actions.act_window">
+      <field name="name">Open Wizard</field>
+      <field name="res_model">cost.calculate.wizard</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+    <menuitem id="menu_reports_yecora" name="Reportes Yecora" parent="account.menu_finance_reports" sequence="15"/>
+    <menuitem id="wizard_cost" name="Costos" parent="menu_reports_yecora" action="action_open_wizard" sequence="5"/>
+    <!--  -->
+  </data>
+</odoo>
