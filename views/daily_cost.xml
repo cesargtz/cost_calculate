@@ -1,0 +1,55 @@
+<openerp>
+  <data>
+    <record id="seq_type_cost" model="ir.sequence">
+      <field name="name">Daily REG</field>
+      <field name="code">code_daily_cost</field>
+    </record>
+
+    <record id="seq_cost" model="ir.sequence">
+      <field name="name">reg</field>
+      <field name="code">code_daily_cost</field>
+      <field name="prefix">costo</field>
+      <field name="padding">2</field>
+      <field name="implementation">no_gap</field>
+    </record>
+
+    <record model="ir.ui.view" id="daily_cost_form_view">
+      <field name="name">daily.cost.form</field>
+      <field name="model">initial.inv</field>
+      <field name="arch" type="xml">
+        <form>
+          <group col="2">
+            <field name="date" string="Fecha"/>
+            <field name="tons_daily" string="Toneladas"/>
+            <field name="amount_daily" string="Monto"/>
+            <field name="cost_daily" string="Costo"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="daily_cost_tree_view">
+      <field name="name">daily.cost.tree</field>
+      <field name="model">initial.inv</field>
+      <field name="arch" type="xml">
+        <tree string="Costo Diario" default_order="date desc">
+          <field name="date" string="Fecha"/>
+          <field name="tons_daily" string="Toneladas"/>
+          <field name="amount_daily" string="Monto"/>
+          <field name="cost_daily" string="Costo"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="news_list_action">
+      <field name="name">Daily Cost</field>
+      <field name="res_model">initial.inv</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">Create the first daily cost</p>
+      </field>
+    </record>
+    <menuitem id="daily_cost" name="Costo Diario" parent="menu_reports_yecora" action="news_list_action" sequence="5"/>
+  </data>
+</openerp>

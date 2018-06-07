@@ -24,14 +24,14 @@
             .column_b {
              display: block;
              }
-            .inline { 
+            .inline {
                display: inline-block;
               }
-            .table_inv{ 
-              margin-top:-20px; 
+            .table_inv{
+              margin-top:-20px;
               margin-bottom:40px;
-              } 
-            span { 
+              }
+            span {
               color: black
               }
             th {
@@ -56,7 +56,7 @@
             margin: 0 10px 0 10px;
             align="center";
             }
-            .date{ 
+            .date{
               color: #4a8b71;
             }
           </style>
@@ -64,7 +64,7 @@
             <div class="contenedor" t-foreach="keys_order" t-as="date">
               <!-- Details -->
               <div>
-                  <Strong><h5 class="date" t-esc="date"></h5></Strong>  
+                  <Strong><h5 class="date" t-esc="date"></h5></Strong>
               </div>
               <div class="column_a">
                 <!-- Tabla Día -->
@@ -78,8 +78,8 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><span t-esc="totals[date]['tons']"></span></td> 
-                        <td t-if="(totals[date]['tons_sale'] - totals[date]['tons_sale_ref']) != 0"><span t-esc="totals[date]['tons_sale'] - totals[date]['tons_sale_ref']"></span></td>
+                        <td><span t-esc="totals[date]['tons']"></span></td>
+                        <td t-if="(totals[date]['tons_sale'] - totals[date]['tons_sale_ref']) != 0"><span t-esc="'{0:,.2f}'.format(float(totals[date]['tons_sale'] - totals[date]['tons_sale_ref']))"></span></td>
                         <td>$<span t-esc="'{0:,.2f}'.format(float(totals[date]['total']))"></span></td>
                       </tr>
                     </tbody>
@@ -157,7 +157,7 @@
                   </tbody>
                 </table>
               </div>
-            </div>  
+            </div>
           </t>
         <!--  -->
         <div >

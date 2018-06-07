@@ -10,5 +10,6 @@
         'views/papperformat.xml',
         'views/cost_report_report.xml',
         'views/cost_report_template.xml',
+        'views/daily_cost.xml',
     ]
 }
