@@ -26,6 +26,7 @@
               <field name="cost_daily" string="Costo"/>
             </group>
             <group string="Compras">
+              <field name="tcr" string="Toneladas Reales"/>
               <field name="tpd" string="Toneladas"/>
               <field name="tpdr" string="Tn Devolucion"/>
               <field name="apd" string="Monto"/>

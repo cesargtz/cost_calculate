@@ -61,7 +61,7 @@ class ReportCalculateCost(models.AbstractModel):
             init_amount -= bills_sale[1]
             self.insert_inv(init_amount, init_ton, cost, date, bills[3]['tpd'], bills[3]['tpdr'],
                             bills[3]['apd'],bills[3]['apdr'],bills[3]['tsd'],bills[3]['tsdr'],
-                            bills[3]['asd'],bills[3]['asdr'])
+                            bills[3]['asd'],bills[3]['asdr'],bills[3]['tcr'])
             dir_totals[date] = {
                 'tons': bills[3]['tpd'] - bills[3]['tpdr'],
                 'total': bills[3]['apd'] - bills[3]['apdr'],
@@ -85,7 +85,7 @@ class ReportCalculateCost(models.AbstractModel):
     def reorganize(self, date, types):
         tons, amount, dir_keys_prd = 0, 0, {}
         daily = {'tpd': 0, 'tpdr': 0, 'apd': 0, 'apdr': 0,
-            'tsd': 0, 'tsdr': 0, 'asd': 0, 'asdr': 0}
+            'tsd': 0, 'tsdr': 0, 'asd': 0, 'asdr': 0, 'tcr': 0, 'tcr' : 0}
         bills = self.bills(date, types)
         for bill in bills:
             product_check = self.env['account.invoice.line'].search([('invoice_id', '=', bill.id)])
@@ -130,6 +130,7 @@ class ReportCalculateCost(models.AbstractModel):
                         'type': bill.type,
                         'sum_tons': ppp.sum_tons_cost
                     }
+                    daily['tcr'] = daily['tpd'] - daily['tpdr']
                     if not str(ppp.id) in dir_keys_prd:
                             dir_keys_prd.update({str(ppp.id): []})
                     dir_keys_prd[str(ppp.id)].append(obj)
@@ -142,7 +143,7 @@ class ReportCalculateCost(models.AbstractModel):
                             ('state', 'in', ['open', 'paid'])], order="date_invoice")
 
     def insert_inv(self, amount, tons, cost, date, tpd, tpdr,
-                   apd, apdr, tsd, tsdr, asd, asdr):
+                   apd, apdr, tsd, tsdr, asd, asdr, tcr):
         check = self.env['initial.inv'].search([('date', '=', date)])
         if not check:
             self.env['initial.inv'].create({
@@ -151,7 +152,8 @@ class ReportCalculateCost(models.AbstractModel):
                             'tpd': tpd, 'tpdr': tpdr,
                             'apd': apd, 'apdr': apdr,
                             'tsd': tsd, 'tsdr': tsdr,
-                            'asd': asd, 'asdr': asdr
+                            'asd': asd, 'asdr': asdr,
+                            'tcr': tcr
                         })
 
     def get_keys_order(self, list):

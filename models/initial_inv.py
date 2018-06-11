@@ -16,6 +16,7 @@ class InitialInv(models.Model):
     date = fields.Date()
 
     # Diario
+    tcr = fields.Float()
     tpd = fields.Float()
     tpdr = fields.Float()
     apd = fields.Float()
