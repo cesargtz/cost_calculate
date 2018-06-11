@@ -23,6 +23,14 @@
             <field name="tons_daily" string="Toneladas"/>
             <field name="amount_daily" string="Monto"/>
             <field name="cost_daily" string="Costo"/>
+            <field name="tpd"/>
+            <field name="tpdr"/>
+            <field name="apd"/>
+            <field name="apdr"/>
+            <field name="tsd"/>
+            <field name="tsdr"/>
+            <field name="asd"/>
+            <field name="asdr"/>
           </group>
         </form>
       </field>
