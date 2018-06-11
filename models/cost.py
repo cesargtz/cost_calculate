@@ -63,8 +63,8 @@ class ReportCalculateCost(models.AbstractModel):
                             bills[3]['apd'],bills[3]['apdr'],bills[3]['tsd'],bills[3]['tsdr'],
                             bills[3]['asd'],bills[3]['asdr'])
             dir_totals[date] = {
-                'tons': bills[3]['tpd'],
-                'total': bills[3]['apd'],
+                'tons': bills[3]['tpd'] - bills[3]['tpdr'],
+                'total': bills[3]['apd'] - bills[3]['apdr'],
                 'sum_tons': init_ton,
                 'sum_import': init_amount,
                 'tons_sale': bills[3]['tsd'],
