@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_initial_inv,initial_inv,model_initial_inv,group_access_initial_inv,1,1,1,1

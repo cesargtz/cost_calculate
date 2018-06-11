@@ -3,8 +3,7 @@
 from odoo import api, fields, models
 
 
-class Truck(models.Model):
-    _inherit = 'report.calculate_cost.report_cost'
+class InitialInv(models.Model):
     _name = 'initial.inv'
 
     name = fields.Char( required=True, select=True, copy=False, default=lambda
@@ -17,11 +16,11 @@ class Truck(models.Model):
     date = fields.Date()
 
     # Diario
-    tpd = fields.Float(string="Tns compra")
-    tpdr = fields.Float(string="Dev tons compra")
-    apd = fields.Float(string="Monto compra")
-    apdr = fields.Float(string="Monto de NC compra")
-    tsd = fields.Float(string="Tns venta")
-    tsdr = fields.Float(string="Tns de NC venta")
-    asd = fields.Float(string="Monto de venta")
-    asdr = fields.Float(string="Dev tons venta")
+    tpd = fields.Float()
+    tpdr = fields.Float()
+    apd = fields.Float()
+    apdr = fields.Float()
+    tsd = fields.Float()
+    tsdr = fields.Float()
+    asd = fields.Float()
+    asdr = fields.Float()

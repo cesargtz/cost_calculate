@@ -107,56 +107,67 @@
                 </div>
               </div>
               <hr style="margin-top:0px;"/>
+
+
               <!-- Tables -->
               <div class="column_b">
                 <table class="table table-striped table_inv">
                   <thead>
                       <th>Producto</th>
-                      <!-- <th>Productor</th> -->
                       <th>Numero</th>
                       <th>Toneladas</th>
                       <th>P. Unitario</th>
                       <th>Total</th>
-                      <!-- <th>Fecha</th> -->
-                  </thead>
+                   </thead>
                   <tbody>
-                    <div t-foreach="dir[date]" t-as="a">
-                      <div t-foreach="dir[date][a]" t-as="d">
-                        <!-- Ventas -->
-                        <tr class="info" t-if="d['type'] == 'out_invoice'">
-                          <td t-esc="d['product']" t-value="d['product']" ></td>
-                          <td t-esc="d['number']" t-value="d['number']" ></td>
-                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['total']))" ></td>
-                        </tr>
-                        <tr class="warning" t-if="d['type'] == 'out_refund'">
-                          <td t-esc="d['product']" t-value="d['product']" ></td>
-                          <td t-esc="d['number']" t-value="d['number']" ></td>
-                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))"></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['total']))"></td>
-                        </tr>
-                        <!-- Compras -->
-                        <tr class="danger" t-if="d['type'] == 'in_refund'">
-                          <td t-esc="d['product']" t-value="d['product']" ></td>
-                          <td t-esc="d['number']" t-value="d['number']" ></td>
-                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['total']))"></td>
-                        </tr>
-                        <tr t-if="d['type'] == 'in_invoice'">
-                          <td t-esc="d['product']" t-value="d['product']" ></td>
-                          <td t-esc="d['number']" t-value="d['number']" ></td>
-                          <td t-esc="d['tons']" t-value="d['tons']" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
-                          <td t-esc="'{0:,.2f}'.format(float(d['total']))" ></td>
-                        </tr>
+                    <t t-if="date in dir">
+                      <div t-foreach="dir[date]" t-as="a">
+                        <div t-foreach="dir[date][a]" t-as="d">
+                          <!-- Compras -->
+                          <tr class="danger" t-if="d['type'] == 'in_refund'">
+                            <td t-esc="d['product']" t-value="d['product']" ></td>
+                            <td t-esc="d['number']" t-value="d['number']" ></td>
+                            <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['total']))"></td>
+                          </tr>
+                          <tr t-if="d['type'] == 'in_invoice'">
+                            <td t-esc="d['product']" t-value="d['product']" ></td>
+                            <td t-esc="d['number']" t-value="d['number']" ></td>
+                            <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['total']))" ></td>
+                          </tr>
+                        </div>
                       </div>
-                    </div>
+                    </t>
+                    <t t-if="date in sales">
+                      <div t-foreach="sales[date]" t-as="a">
+                        <div t-foreach="sales[date][a]" t-as="d">
+                          <!-- Ventas -->
+                          <tr class="info" t-if="d['type'] == 'out_invoice'">
+                            <td t-esc="d['product']" t-value="d['product']" ></td>
+                            <td t-esc="d['number']" t-value="d['number']" ></td>
+                            <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['total']))" ></td>
+                          </tr>
+                          <tr class="warning" t-if="d['type'] == 'out_refund'">
+                            <td t-esc="d['product']" t-value="d['product']" ></td>
+                            <td t-esc="d['number']" t-value="d['number']" ></td>
+                            <td t-esc="d['tons']" t-value="d['tons']" ></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['precio_unitario']))"></td>
+                            <td t-esc="'{0:,.2f}'.format(float(d['total']))"></td>
+                          </tr>
+                        </div>
+                      </div>
+                    </t>
                   </tbody>
                 </table>
               </div>
+              <!-- Tables -->
+
+
             </div>
           </t>
         <!--  -->

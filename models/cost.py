@@ -22,7 +22,10 @@ class ReportCalculateCost(models.AbstractModel):
         bills_sale = get_bills[1]
         union = set(bills.keys()) | set(bills_sale.keys())
         keys_ordes = self.get_keys_order(union)
-        dir_totals = self.get_totals()
+        # print("keys_ordes")
+        # print(keys_ordes)
+        # print("Totatles")
+        # print(get_bills[2])
         docargs = {
             'doc_ids': self.ids,
             'doc_model': self.model,
@@ -31,13 +34,13 @@ class ReportCalculateCost(models.AbstractModel):
             'dir': bills,
             'sales': bills_sale,
             'keys_order': keys_ordes,
-            'totals': dir_totals
+            'totals': get_bills[2]
         }
         return self.env['report'].render('cost_calculate.report_cost', docargs)
 
     @api.multi
     def get_invoice(self, types, date_range):
-        purchases_invoices, sales_invoices = {}, {}
+        purchases_invoices, sales_invoices, dir_totals = {}, {}, {}
         for single_date in date_range:
             tons = amount = cost = init_ton = init_amount = 0
             date = single_date.strftime("%Y-%m-%d")
@@ -59,6 +62,15 @@ class ReportCalculateCost(models.AbstractModel):
             self.insert_inv(init_amount, init_ton, cost, date, bills[3]['tpd'], bills[3]['tpdr'],
                             bills[3]['apd'],bills[3]['apdr'],bills[3]['tsd'],bills[3]['tsdr'],
                             bills[3]['asd'],bills[3]['asdr'])
+            dir_totals[date] = {
+                'tons': bills[3]['tpd'],
+                'total': bills[3]['apd'],
+                'sum_tons': init_ton,
+                'sum_import': init_amount,
+                'tons_sale': bills[3]['tsd'],
+                'tons_sale_ref': bills[3]['tsdr'],
+                'cost': cost,
+            }
             # Directorio de facturas
             if dir_bill_purchase:
                 if not date in purchases_invoices:
@@ -68,7 +80,7 @@ class ReportCalculateCost(models.AbstractModel):
                 if not date in sales_invoices:
                     sales_invoices.update({ str(date): {} })
                 sales_invoices[str(date)] = dir_bill_sale
-        return [purchases_invoices, sales_invoices] #Return dir of purchases and sales invoice
+        return [purchases_invoices, sales_invoices, dir_totals] #Return dir of purchases and sales invoice
 
     def reorganize(self, date, types):
         tons, amount, dir_keys_prd = 0, 0, {}
@@ -131,32 +143,17 @@ class ReportCalculateCost(models.AbstractModel):
 
     def insert_inv(self, amount, tons, cost, date, tpd, tpdr,
                    apd, apdr, tsd, tsdr, asd, asdr):
-        self.env['initial.inv'].create({
-                        'amount_daily': amount,
-                        'tons_daily': tons,
-                        'cost_daily': cost,
-                        'date': date,
-                        'tpd': tpd,
-                        'tpdr': tpdr,
-                        'apd': apd,
-                        'apdr': apdr,
-                        'tsd': tsd,
-                        'tsdr': tsdr,
-                        'asd': asd,
-                        'asdr': asdr
-                    })
+        check = self.env['initial.inv'].search([('date', '=', date)])
+        if not check:
+            self.env['initial.inv'].create({
+                            'amount_daily': amount, 'tons_daily': tons,
+                            'cost_daily': cost, 'date': date,
+                            'tpd': tpd, 'tpdr': tpdr,
+                            'apd': apd, 'apdr': apdr,
+                            'tsd': tsd, 'tsdr': tsdr,
+                            'asd': asd, 'asdr': asdr
+                        })
 
     def get_keys_order(self, list):
             ks = sorted(list, key=lambda x: datetime.datetime.strptime(x, '%Y-%m-%d'), reverse=True)
             return ks
-
-    # def get_totals(self,date_start, date_end):
-    #     dir_totals = {}
-    #     totals = self.env['initial'].search([('date','>=',date_start),
-    #                                          ('date','<=',date_end)], order="date desc")
-    #     for total in totals:
-    #         if total.date in dir_total:
-    #             dir_totals.update({str(total.date): {
-    #                                 'sum_tons': ,
-    #                                 'sum_import',
-    #             }})

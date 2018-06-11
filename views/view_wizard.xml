@@ -26,7 +26,8 @@
       <field name="target">new</field>
     </record>
     <menuitem id="menu_reports_yecora" name="Reportes Yecora" parent="account.menu_finance_reports" sequence="15"/>
-    <menuitem id="wizard_cost" name="Costos" parent="menu_reports_yecora" action="action_open_wizard" sequence="5"/>
+    <menuitem id="wizard_cost" name="Costos" parent="menu_reports_yecora" action="action_open_wizard" sequence="5"
+      groups="group_access_initial_inv"/>
     <!--  -->
   </data>
 </odoo>

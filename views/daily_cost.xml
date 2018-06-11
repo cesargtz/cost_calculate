@@ -18,19 +18,25 @@
       <field name="model">initial.inv</field>
       <field name="arch" type="xml">
         <form>
-          <group col="2">
-            <field name="date" string="Fecha"/>
-            <field name="tons_daily" string="Toneladas"/>
-            <field name="amount_daily" string="Monto"/>
-            <field name="cost_daily" string="Costo"/>
-            <field name="tpd"/>
-            <field name="tpdr"/>
-            <field name="apd"/>
-            <field name="apdr"/>
-            <field name="tsd"/>
-            <field name="tsdr"/>
-            <field name="asd"/>
-            <field name="asdr"/>
+          <h2> <field name="date" string="Fecha"/></h2>
+          <group col="3">
+            <group string="General">
+              <field name="tons_daily" string="Toneladas"/>
+              <field name="amount_daily" string="Monto"/>
+              <field name="cost_daily" string="Costo"/>
+            </group>
+            <group string="Compras">
+              <field name="tpd" string="Toneladas"/>
+              <field name="tpdr" string="Tn Devolucion"/>
+              <field name="apd" string="Monto"/>
+              <field name="apdr" string="Monto Devolucion"/>
+            </group>
+            <group string="Ventas">
+              <field name="tsd" string="Toneladas"/>
+              <field name="tsdr"  string="Tn Devolucion"/>
+              <field name="asd" string="Monto"/>
+              <field name="asdr" string="Monto Devolucion"/>
+            </group>
           </group>
         </form>
       </field>
